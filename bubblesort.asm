@@ -1,7 +1,7 @@
 .data 
 	array:
 		.align 2 # Alinha palavra na posicao correta, array de inteiros
-		.space 16 # Aloca 4 espa�os no array
+		.word 0:16 # Aloca 4 espa�os no array
 	space:
 		.asciiz " " # String contendo um espa�o
 		
@@ -23,14 +23,14 @@ criarArray:
 	move $t0, $zero #Define indice do array como zero
 	li $t2, 16 # Define Tamanho do array (16/4) elementos
 	loopCriarArray:
-		beq $t0, $t2, frimCriarArray #Se o indice for maior que a lista sai do loop
+		beq $t0, $t2, fimCriarArray #Se o indice for igual ao numero de elementos da lista sai do loop
 		li $a1, 100 # Limite superior do intervalo de aleatorios
 		li $v0, 42 # C�digo para gerar inteiro aleatorio
 		syscall 
 		sw $a0, array($t0) # Salva o valor aleatorio gerado na posicao do array
 		addi $t0, $t0, 4 #incrementa indice do loop
 		j loopCriarArray
-	frimCriarArray:
+	fimCriarArray:
 		jr $ra
 
 
@@ -41,7 +41,7 @@ imprimirArray:
 	loopImprimirDesordenado:
 		move $t0, $zero #indice do array  
 	imprimeDesordenado:
-		beq $t0, $t2, loopOrdenar #Se o indice for maior que a lista sai do loop
+		beq $t0, $t2, fimImprimirDesordenado #Se o indice for maior que a lista sai do loop
 		li $v0, 1 # Codigo para imprimir inteiro carregado
 		lw $a0, array($t0) # Argumento sendo valor do array na posicao
 		syscall
